@@ -1,5 +1,6 @@
 <template>
   <q-form @submit="login" class="q-gutter-md">
+    <br>
     <q-input
       outlined
       type="email"
@@ -22,7 +23,7 @@
       <q-btn class="full-width" label="Entrar" type="submit" color="primary"/>
       <br>
       <br>
-      <q-btn flat class="full-width" color="primary" label="Clique aqui para registrar" />
+      <q-btn flat class="full-width" color="primary" label="Clique aqui para registrar" @click="$emit('setScreen', 'register')" />
     </div>
   </q-form>
 </template>
