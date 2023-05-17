@@ -102,6 +102,7 @@ module.exports = function (/* ctx */) {
       plugins: [
         'LocalStorage',
         'Notify',
+        'Loading',
       ]
     },
 

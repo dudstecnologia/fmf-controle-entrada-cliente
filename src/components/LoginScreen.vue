@@ -4,7 +4,7 @@
     <q-input
       outlined
       type="email"
-      v-model="email"
+      v-model="auth.email"
       label="E-mail"
       lazy-rules
       :rules="[ val => val && val.length > 0 || 'O e-mail é obrigatório']"
@@ -13,7 +13,7 @@
     <q-input
       outlined
       type="password"
-      v-model="senha"
+      v-model="auth.password"
       label="Senha"
       lazy-rules
       :rules="[ val => val && val.length > 0 || 'A senha é obrigatória']"
@@ -33,13 +33,50 @@ export default {
   name: 'LoginScreen',
   data() {
     return {
-      email: '',
-      senha: ''
+      auth: {
+        email: '',
+        password: ''
+      }
     }
   },
+  mounted() {
+    this.checkCredentials()
+  },
   methods: {
+    checkCredentials() {
+      let token = this.$q.localStorage.getItem('token')
+
+      if (token) {
+        this.$q.loading.show()
+        this.$api.get('/user-data')
+          .then(() => {
+            this.$emit('setScreen', 'home')
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$q.localStorage.set('token', '')
+          })
+          .finally(() => {
+            this.$q.loading.hide()
+          })
+      }
+    },
     login() {
-      console.log('Passou aqui')
+      this.$api.post('/auth', this.auth)
+        .then(({ data }) => {
+          this.$q.localStorage.set('token', data.token)
+
+          this.$emit('setScreen', 'home')
+        })
+        .catch((err) => {
+          console.log(err)
+
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Erro ao logar, verifique suas credenciais'
+          })
+        })
     }
   }
 }

@@ -46,7 +46,7 @@
     />
 
     <div>
-      <q-btn class="full-width" label="Registar" type="submit" color="primary"/>
+      <q-btn class="full-width" label="Registrar" type="submit" color="primary"/>
       <br>
       <br>
       <q-btn class="full-width" color="secondary" label="Voltar" @click="$emit('setScreen', 'login')" />
